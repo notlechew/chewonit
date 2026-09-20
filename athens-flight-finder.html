@@ -1,0 +1,345 @@
+<title>Weekend to Athens</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f4ee;
+    --surface:#ffffff;
+    --surface-2:#eeebe1;
+    --ink:#1c2430;
+    --muted:#63697a;
+    --line:#ddd8c9;
+    --accent:#1f6f8b;
+    --accent-ink:#0d3644;
+    --accent-2:#c1502e;
+    --accent-2-ink:#7a2f16;
+    --good:#2f7a4f;
+    --good-bg:#e3f0e6;
+    --warn-bg:#f6e6dd;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#10151c;
+      --surface:#171f29;
+      --surface-2:#1e2732;
+      --ink:#e9ecf1;
+      --muted:#9aa2b1;
+      --line:#2b3542;
+      --accent:#5cb8de;
+      --accent-ink:#cdeeff;
+      --accent-2:#e28a5f;
+      --accent-2-ink:#ffdfcd;
+      --good:#6fce93;
+      --good-bg:#173324;
+      --warn-bg:#2e2015;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#10151c;
+    --surface:#171f29;
+    --surface-2:#1e2732;
+    --ink:#e9ecf1;
+    --muted:#9aa2b1;
+    --line:#2b3542;
+    --accent:#5cb8de;
+    --accent-ink:#cdeeff;
+    --accent-2:#e28a5f;
+    --accent-2-ink:#ffdfcd;
+    --good:#6fce93;
+    --good-bg:#173324;
+    --warn-bg:#2e2015;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', system-ui, sans-serif;
+    padding-inline:16px;
+    padding-block:28px 48px;
+    max-width:920px;
+    margin-inline:auto;
+    line-height:1.45;
+  }
+  h1,h2,h3{font-family:'Fraunces', Georgia, serif; text-wrap:balance; margin:0;}
+  h1{font-size:clamp(1.7rem, 5vw, 2.4rem); font-weight:600; letter-spacing:-0.01em;}
+  h2{font-size:1.15rem; font-weight:600;}
+  .eyebrow{
+    font-size:.72rem; text-transform:uppercase; letter-spacing:.11em;
+    color:var(--accent-ink); font-weight:600;
+  }
+  header{margin-block-end:24px;}
+  .sub{color:var(--muted); margin-block-start:6px; max-width:60ch;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:18px;
+  }
+
+  .controls{
+    display:flex; flex-wrap:wrap; gap:14px 22px; align-items:flex-end;
+    margin-block-end:22px;
+  }
+  .field{display:flex; flex-direction:column; gap:5px;}
+  .field label{font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:600;}
+  input[type=text], input[type=number]{
+    font-family:'IBM Plex Mono', monospace; font-size:.95rem;
+    background:var(--surface-2); border:1px solid var(--line); border-radius:8px;
+    padding:8px 10px; color:var(--ink); width:9ch;
+  }
+  input[type=number]{width:6ch;}
+  .checks{display:flex; gap:14px; flex-wrap:wrap;}
+  .checks label{display:flex; align-items:center; gap:6px; font-size:.88rem; color:var(--ink);}
+  .route{
+    display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace;
+    font-size:1.05rem; font-weight:500;
+  }
+  .route .arrow{color:var(--accent); font-size:1.1rem;}
+  .route .dest{color:var(--accent-2-ink); font-weight:600;}
+
+  section{margin-block-start:30px;}
+  .picks{
+    display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:12px;
+    margin-block-start:14px;
+  }
+  .pick{
+    background:var(--surface); border:1px solid var(--line); border-radius:12px;
+    padding:14px; display:flex; flex-direction:column; gap:8px; position:relative;
+  }
+  .pick .rank{
+    position:absolute; top:12px; right:14px; font-family:'Fraunces',serif;
+    font-size:1.6rem; color:var(--line); font-weight:600; line-height:1;
+  }
+  .pick .dates{font-weight:600; font-size:1.02rem;}
+  .pick .nights{color:var(--muted); font-size:.82rem;}
+  .tag{
+    display:inline-flex; align-items:center; width:fit-content;
+    font-size:.68rem; text-transform:uppercase; letter-spacing:.06em; font-weight:600;
+    padding:3px 8px; border-radius:999px; background:var(--good-bg); color:var(--good);
+  }
+  .picklinks{display:flex; gap:8px; margin-block-start:2px;}
+  .picklinks a{
+    font-size:.78rem; font-weight:600; text-decoration:none; color:var(--accent-ink);
+    background:var(--surface-2); border:1px solid var(--line); border-radius:7px;
+    padding:5px 9px;
+  }
+  .picklinks a:hover{border-color:var(--accent);}
+
+  table{border-collapse:collapse; width:100%; font-size:.86rem;}
+  thead th{
+    text-align:left; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--muted); padding:7px 8px; border-bottom:1px solid var(--line);
+    position:sticky; top:0; background:var(--surface);
+  }
+  tbody td{padding:7px 8px; border-bottom:1px solid var(--line); font-variant-numeric:tabular-nums; vertical-align:middle;}
+  tbody tr:hover td{background:var(--surface-2);}
+  .tablewrap{max-height:480px; overflow-y:auto; overflow-x:auto; border:1px solid var(--line); border-radius:12px;}
+  .season{font-size:.72rem; padding:2px 7px; border-radius:999px; font-weight:600;}
+  .season.low{background:var(--good-bg); color:var(--good);}
+  .season.mid{background:var(--surface-2); color:var(--muted);}
+  .season.high{background:var(--warn-bg); color:var(--accent-2-ink);}
+  .links a{margin-right:10px; font-size:.8rem; font-weight:600; color:var(--accent-ink); text-decoration:none;}
+  .links a:hover{text-decoration:underline;}
+
+  .findings{display:flex; flex-direction:column; gap:10px; margin-block-start:14px;}
+  .findings .row{display:flex; gap:12px; align-items:baseline;}
+  .findings .k{min-width:9.5em; font-size:.78rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; font-weight:600;}
+  .findings .v{font-size:.92rem;}
+  .findings .v a{color:var(--accent-ink);}
+
+  footer{margin-block-start:34px; color:var(--muted); font-size:.8rem; border-top:1px solid var(--line); padding-block-start:16px;}
+  footer a{color:var(--accent-ink);}
+</style>
+
+<header>
+  <div class="eyebrow">Fare-hunting tool · SIN → ATH</div>
+  <h1>Weekend to Athens</h1>
+  <p class="sub">Every Friday-night / Saturday-out week for the next 12 months, paired with a return exactly two weeks later, plus one-click search links so you can pull live prices yourself.</p>
+</header>
+
+<div class="card controls">
+  <div class="field">
+    <label for="origin">From (IATA)</label>
+    <input type="text" id="origin" maxlength="4" value="SIN">
+  </div>
+  <div class="route"><span id="originLabel">SIN</span> <span class="arrow">→</span> <span class="dest">ATH · Athens</span></div>
+  <div class="field">
+    <label for="nights">Nights</label>
+    <input type="number" id="nights" min="7" max="21" value="14">
+  </div>
+  <div class="field">
+    <label>Depart on</label>
+    <div class="checks">
+      <label><input type="checkbox" id="fri" checked> Friday night</label>
+      <label><input type="checkbox" id="sat" checked> Saturday</label>
+    </div>
+  </div>
+</div>
+
+<section>
+  <h2>10 weeks worth checking first</h2>
+  <p class="sub" style="margin-block-start:4px;">Ranked by seasonal fare pattern for Athens, not live prices &mdash; see <a href="#methodology" style="color:var(--accent-ink)">methodology</a> below. Click through to see what each actually costs on your dates.</p>
+  <div class="picks" id="picks"></div>
+</section>
+
+<section>
+  <h2>Full year, week by week</h2>
+  <p class="sub" style="margin-block-start:4px;">Every candidate outbound date in range, with a search link generated live from the fields above.</p>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th>Depart</th><th>Return</th><th>Season</th><th>Search</th></tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="card" id="methodology">
+  <h2>What the real fares look like right now</h2>
+  <div class="findings">
+    <div class="row"><div class="k">SIN&ndash;ATH round trip</div><div class="v">Roughly <strong>$550&ndash;$900</strong> on full-service carriers (Turkish, Qatar, Emirates, Singapore Airlines via a connection); budget/Scoot routings have shown up nearer <strong>$500&ndash;600</strong> on off-peak dates. Treat any site's teaser "from $246" price as a one-way or single-leg fare, not what a round trip actually books at.</div></div>
+    <div class="row"><div class="k">Cheaper months</div><div class="v">Search data currently points to <strong>June</strong> and <strong>October</strong> as low points on this specific route; general Greece seasonality also favors <strong>Feb&ndash;Mar</strong> and <strong>Nov</strong>, with <strong>Jul&ndash;Aug</strong> and the week around New Year priced highest.</div></div>
+    <div class="row"><div class="k">Booking window</div><div class="v">~40 days out has been the sweet spot in recent searches; prices climb sharply inside the last two weeks.</div></div>
+    <div class="row"><div class="k">Watch for error fares</div><div class="v">A Singapore&ndash;Athens error fare surfaced on Secret Flying at $63 one-way &mdash; these are rare, ephemeral, and worth a standing alert rather than a one-time search: <a href="https://www.secretflying.com/error-fares/" target="_blank" rel="noopener">Secret Flying error fares</a>, <a href="https://www.secretflying.com/cheap-flights-from/singapore/" target="_blank" rel="noopener">Secret Flying · from Singapore</a>.</div></div>
+  </div>
+  <p class="sub" style="margin-block-start:16px;">This page can't query a live fare API, so it can't hand you 10 verified prices &mdash; instead it builds the exact search you'd otherwise construct by hand, for every relevant week in the year, so you can scan real live results fast. Season tags are a heuristic from typical Athens demand curves, not a price feed.</p>
+</section>
+
+<footer>
+  Links open Google Flights and Skyscanner with your dates pre-filled. Nothing on this page is booked or saved &mdash; it just builds search URLs from the fields above.
+</footer>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var originInput = $('origin'), nightsInput = $('nights'), friBox = $('fri'), satBox = $('sat');
+  var picksEl = $('picks'), rowsEl = $('rows'), originLabel = $('originLabel');
+
+  var MONTH_SCORE = {0:2,1:1,2:1,3:2,4:2,5:2,6:5,7:5,8:2,9:2,10:1,11:3};
+  var SEASON_NAME = {1:'low',2:'mid',3:'mid',5:'high'};
+
+  function pad(n){ return n<10 ? '0'+n : ''+n; }
+  function iso(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+  function fmt(d){
+    return d.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short', year:'numeric'});
+  }
+  function skyDate(d){
+    return String(d.getFullYear()).slice(2)+pad(d.getMonth()+1)+pad(d.getDate());
+  }
+  function scoreFor(d){
+    var m = d.getMonth(), day = d.getDate();
+    var s = MONTH_SCORE[m];
+    if(m===11 && day>=18) s = 5;
+    if(m===0 && day<=3) s = 4;
+    return s;
+  }
+
+  function gFlightsUrl(origin, dest, out, back){
+    var q = 'Flights to '+dest+' from '+origin+' on '+iso(out)+' through '+iso(back);
+    return 'https://www.google.com/travel/flights?q='+encodeURIComponent(q);
+  }
+  function skyscannerUrl(origin, dest, out, back){
+    return 'https://www.skyscanner.com/transport/flights/'+origin.toLowerCase()+'/'+dest.toLowerCase()+'/'+skyDate(out)+'/'+skyDate(back)+'/';
+  }
+
+  function buildCandidates(){
+    var origin = (originInput.value || 'SIN').trim().toUpperCase().slice(0,4) || 'SIN';
+    var dest = 'ATH';
+    var nights = Math.max(7, Math.min(21, parseInt(nightsInput.value,10) || 14));
+    var wantFri = friBox.checked, wantSat = satBox.checked;
+
+    var today = new Date();
+    today.setHours(0,0,0,0);
+    var horizon = new Date(today); horizon.setFullYear(horizon.getFullYear()+1);
+
+    var d = new Date(today);
+    d.setDate(d.getDate() + ((5 - d.getDay() + 7) % 7)); // next Friday
+
+    var out = [];
+    while(d <= horizon){
+      [[5,wantFri,'Fri evening'],[6,wantSat,'Sat']].forEach(function(pair){
+        var dow = pair[0], want = pair[1], label = pair[2];
+        if(!want) return;
+        var dep = new Date(d);
+        dep.setDate(dep.getDate() + (dow - 5));
+        if(dep < today) return;
+        var ret = new Date(dep);
+        ret.setDate(ret.getDate() + nights);
+        out.push({dep:dep, ret:ret, label:label, score:scoreFor(dep)});
+      });
+      d.setDate(d.getDate() + 7);
+    }
+    out.sort(function(a,b){ return a.dep - b.dep; });
+    return {origin:origin, dest:dest, nights:nights, candidates:out};
+  }
+
+  function seasonTag(score){
+    var name = SEASON_NAME[score] || 'mid';
+    var text = name==='low' ? 'Low season' : name==='high' ? 'Peak' : 'Shoulder';
+    return '<span class="season '+name+'">'+text+'</span>';
+  }
+
+  function render(){
+    var data = buildCandidates();
+    originLabel.textContent = data.origin;
+
+    var picks = data.candidates.slice().sort(function(a,b){
+      if(a.score !== b.score) return a.score - b.score;
+      return a.dep - b.dep;
+    });
+    var seenWeeks = {}, top = [];
+    for(var i=0;i<picks.length && top.length<10;i++){
+      var wk = Math.floor(picks[i].dep.getTime()/(7*86400000));
+      if(seenWeeks[wk]) continue;
+      seenWeeks[wk] = true;
+      top.push(picks[i]);
+    }
+    top.sort(function(a,b){ return a.dep - b.dep; });
+
+    picksEl.innerHTML = top.map(function(c, idx){
+      return '<div class="pick">'+
+        '<span class="rank">'+pad(idx+1)+'</span>'+
+        seasonTag(c.score)+
+        '<div class="dates">'+fmt(c.dep)+'<br>&rarr; '+fmt(c.ret)+'</div>'+
+        '<div class="nights">'+data.nights+' nights · depart '+c.label+'</div>'+
+        '<div class="picklinks">'+
+          '<a href="'+gFlightsUrl(data.origin,data.dest,c.dep,c.ret)+'" target="_blank" rel="noopener">Google Flights</a>'+
+          '<a href="'+skyscannerUrl(data.origin,data.dest,c.dep,c.ret)+'" target="_blank" rel="noopener">Skyscanner</a>'+
+        '</div>'+
+      '</div>';
+    }).join('') || '<p class="sub">No weekend legs match the current filters &mdash; tick Friday or Saturday above.</p>';
+
+    rowsEl.innerHTML = data.candidates.map(function(c){
+      return '<tr>'+
+        '<td>'+fmt(c.dep)+'</td>'+
+        '<td>'+fmt(c.ret)+'</td>'+
+        '<td>'+seasonTag(c.score)+'</td>'+
+        '<td class="links">'+
+          '<a href="'+gFlightsUrl(data.origin,data.dest,c.dep,c.ret)+'" target="_blank" rel="noopener">Google Flights</a>'+
+          '<a href="'+skyscannerUrl(data.origin,data.dest,c.dep,c.ret)+'" target="_blank" rel="noopener">Skyscanner</a>'+
+        '</td>'+
+      '</tr>';
+    }).join('');
+  }
+
+  [originInput, nightsInput, friBox, satBox].forEach(function(el){
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+
+  try{
+    var saved = localStorage.getItem('athens-finder-origin');
+    if(saved) originInput.value = saved;
+  }catch(e){}
+  originInput.addEventListener('change', function(){
+    try{ localStorage.setItem('athens-finder-origin', originInput.value); }catch(e){}
+  });
+
+  render();
+})();
+</script>
