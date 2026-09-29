@@ -23,8 +23,8 @@
 
 **Total paid: SGD $380.00** (4 × $95.00)
 
-**Payment method:** ________________
-**Payment date:** ________________
-**Payment status:** Paid
+**Payment method:** Cash, handed to the tour guide
+**Payment date:** 30 September 2026 (on the day of the tour)
+**Payment status:** To be paid in cash on the day
 
 Thank you for joining Triad Trails.
