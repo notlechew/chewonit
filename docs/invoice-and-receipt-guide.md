@@ -14,7 +14,7 @@ invoices/YYYY-MM-DD-<client-name>.md   # date = tour date
 receipts/YYYY-MM-DD-<client-name>.md
 ```
 
-Example: `receipts/2026-09-30-gabrielle-chan.md`
+Example: `receipts/2026-09-30-client-name.md`
 
 ## Numbering
 
